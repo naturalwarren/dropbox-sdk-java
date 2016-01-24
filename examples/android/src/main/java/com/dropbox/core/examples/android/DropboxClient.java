@@ -4,9 +4,9 @@ import com.dropbox.core.http.OkHttpRequestor;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.DbxHost;
 import com.dropbox.core.DbxRequestConfig;
-import com.dropbox.core.v2.DbxFiles;
-import com.dropbox.core.v2.DbxSharing;
-import com.dropbox.core.v2.DbxUsers;
+import com.dropbox.core.v2.Files;
+import com.dropbox.core.v2.Sharing;
+import com.dropbox.core.v2.Users;
 
 import java.util.Locale;
 
@@ -29,21 +29,21 @@ public class DropboxClient {
         }
     }
 
-    public static DbxFiles DbxFiles() {
+    public static Files Files() {
         if (sDbxClient != null)
             return sDbxClient.files;
         else
             return null;
     }
 
-    public static DbxUsers DbxUsers() {
+    public static Users Users() {
         if (sDbxClient != null)
             return sDbxClient.users;
         else
             return null;
     }
 
-    public static DbxSharing sharing() {
+    public static Sharing sharing() {
         if (sDbxClient != null)
             return sDbxClient.sharing;
         else

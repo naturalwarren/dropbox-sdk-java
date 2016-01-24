@@ -3,30 +3,30 @@ package com.dropbox.core.examples.android;
 import android.os.AsyncTask;
 
 import com.dropbox.core.DbxException;
-import com.dropbox.core.v2.DbxFiles;
+import com.dropbox.core.v2.Files;
 
 /**
  * Async task to list items in a folder
  */
-class ListFolderTask extends AsyncTask<String, Void, DbxFiles.ListFolderResult> {
+class ListFolderTask extends AsyncTask<String, Void, Files.ListFolderResult> {
 
-    private final DbxFiles mDbxFilesClient;
+    private final Files mFilesClient;
     private Exception mException;
     private Callback mCallback;
 
     public interface Callback {
-        void onDataLoaded(DbxFiles.ListFolderResult result);
+        void onDataLoaded(Files.ListFolderResult result);
 
         void onError(Exception e);
     }
 
-    public ListFolderTask(DbxFiles DbxFilesClient, Callback callback) {
-        mDbxFilesClient = DbxFilesClient;
+    public ListFolderTask(Files FilesClient, Callback callback) {
+        mFilesClient = FilesClient;
         mCallback = callback;
     }
 
     @Override
-    protected void onPostExecute(DbxFiles.ListFolderResult result) {
+    protected void onPostExecute(Files.ListFolderResult result) {
         super.onPostExecute(result);
 
         if (mException != null) {
@@ -37,9 +37,9 @@ class ListFolderTask extends AsyncTask<String, Void, DbxFiles.ListFolderResult> 
     }
 
     @Override
-    protected DbxFiles.ListFolderResult doInBackground(String... params) {
+    protected Files.ListFolderResult doInBackground(String... params) {
         try {
-            return mDbxFilesClient.listFolder(params[0]);
+            return mFilesClient.listFolder(params[0]);
         } catch (DbxException e) {
             mException = e;
             e.printStackTrace();

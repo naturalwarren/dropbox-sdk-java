@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 
 import com.dropbox.core.DbxException;
-import com.dropbox.core.v2.DbxFiles;
+import com.dropbox.core.v2.Files;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,26 +15,26 @@ import java.io.InputStream;
 /**
  * Async task to upload a file to a directory
  */
-class UploadFileTask extends AsyncTask<String, Void, DbxFiles.FileMetadata> {
+class UploadFileTask extends AsyncTask<String, Void, Files.FileMetadata> {
 
     private final Context mContext;
-    private final DbxFiles mFilesClient;
+    private final Files mFilesClient;
     private Exception mException;
     private Callback mCallback;
 
     public interface Callback {
-        void onUploadComplete(DbxFiles.FileMetadata result);
+        void onUploadComplete(Files.FileMetadata result);
         void onError(Exception e);
     }
 
-    UploadFileTask(Context context, DbxFiles filesClient, Callback callback) {
+    UploadFileTask(Context context, Files filesClient, Callback callback) {
         mContext = context;
         mFilesClient = filesClient;
         mCallback = callback;
     }
 
     @Override
-    protected void onPostExecute(DbxFiles.FileMetadata result) {
+    protected void onPostExecute(Files.FileMetadata result) {
         super.onPostExecute(result);
         if (mException != null) {
             mCallback.onError(mException);
@@ -46,7 +46,7 @@ class UploadFileTask extends AsyncTask<String, Void, DbxFiles.FileMetadata> {
     }
 
     @Override
-    protected DbxFiles.FileMetadata doInBackground(String... params) {
+    protected Files.FileMetadata doInBackground(String... params) {
         String localUri = params[0];
         File localFile = UriHelpers.getFileForUri(mContext, Uri.parse(localUri));
 
@@ -60,7 +60,7 @@ class UploadFileTask extends AsyncTask<String, Void, DbxFiles.FileMetadata> {
                 InputStream inputStream = new FileInputStream(localFile);
                 try {
                     mFilesClient.uploadBuilder(remoteFolderPath + "/" + remoteFileName)
-                            .mode(DbxFiles.WriteMode.overwrite)
+                            .mode(Files.WriteMode.overwrite)
                             .run(inputStream);
                 } finally {
                     inputStream.close();
